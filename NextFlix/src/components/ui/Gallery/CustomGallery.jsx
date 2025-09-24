@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import CustomGalleryRow from "./CustomGalleryRow";
 
 export function CustomGallery({ pictureArray }) {
+
+    const [chunks, setChunks] = useState([])
 
     const chunkArray = (array, size) => {
         const result = [];
@@ -10,15 +13,19 @@ export function CustomGallery({ pictureArray }) {
         return result;
     };
 
-    const pictureChunks = chunkArray(pictureArray, 3);
+
+    useEffect(() => {
+        const pictureChunks = chunkArray(pictureArray, 3);
+        setChunks(pictureChunks)
+        // console.log(pictureChunks)
+    }, [])
 
     return (
-        <>
-            {pictureChunks.map((chunk, rowIndex) => (
-                <div key={rowIndex} className="flex flex-row gap-4 mb-4">
-                    <CustomGalleryRow pictures={chunk} />
-                </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {chunks.length > 0 && chunks.map((chunk, rowIndex) => (
+                <CustomGalleryRow key={rowIndex} picturesChunks={chunk} />
             ))}
-        </>
+        </div>
+
     );
 }

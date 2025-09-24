@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CustomCarousel } from "@ui/Carousel/CustomCarousel";
 import { CustomGallery } from "@ui/Gallery/CustomGallery";
-import { getRandomBrewery, getLandscapePicture } from "@services/api";
+import { getRandomBrewery, getLandscapePicture, getPortraitPicture } from "@services/api";
 
 export default function Home() {
 
@@ -11,10 +11,11 @@ export default function Home() {
         paragraphe: "Venez découvir notre large gamme de plus de 50 bières!"
     }])
 
+    const [gallery, setGallery] = useState([])
+
     const createSlides = async (count) => {
         const pictures = await getLandscapePicture(count, "beer-and-food");
-        console.log(pictures)
-        console.log(pictures)
+       
         const slidesData = await Promise.all(
           pictures.map(async (picture) => {
             const [brewery] = await getRandomBrewery();
@@ -29,19 +30,34 @@ export default function Home() {
         setSlides(slidesData); 
     };
 
-    const getGalleryPictures = () => {
-        const response = await fetch(``)
-    }
+    const getGalleryPictures = async (count) => {
+      const halfCount = Math.floor(count / 2);
+      const landscapePictures = await getLandscapePicture(halfCount, "beer");
+      const portraitPictures = await getPortraitPicture(halfCount, "beer");
+    
+      const pictures = [];
+    
+      for(let i = 0; i < halfCount; i++){
+        pictures.push(landscapePictures[i].urls.regular);
+        pictures.push(portraitPictures[i].urls.regular);
+      }
+    
+      setGallery(pictures);
+    };
+    
 
     useEffect(()=>{
         createSlides(3)
+        getGalleryPictures(9)
     }, [])
     
 
   return (
     <>
         <CustomCarousel slides={slides} height={"70svh"} />
-        <CustomGallery  pictureArray={["1", "2"]} />
+        {gallery.length > 0 && (
+          <CustomGallery  pictureArray={gallery} />
+        )}
     </>
   );
 }
