@@ -1,0 +1,7 @@
+.avatarContainer{
+    position: absolute;
+    background-color: purple;
+    display: flex;
+    top: 30px;
+    width: 100%;
+}

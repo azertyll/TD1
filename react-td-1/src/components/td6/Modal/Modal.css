@@ -1,0 +1,19 @@
+.customModal{
+    width: 500px;
+    height: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(81, 28, 229);
+    border-radius: 10px;
+}
+
+.customModal-header{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hide{
+    display: none;
+}

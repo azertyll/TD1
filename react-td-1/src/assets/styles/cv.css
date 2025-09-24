@@ -1,0 +1,6 @@
+.cvContainer{
+    position: relative;
+    height: 100svh;
+    width: 40vw;
+    display: flex;
+}
